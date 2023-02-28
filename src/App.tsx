@@ -1,6 +1,8 @@
+import * as css from "./style/style";
+import { FormOutlined } from "@ant-design/icons";
 import { TodoType } from "./AppContainer";
-import Input from "./components/Input";
-import List from "./components/List";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
 type propsType = {
     todoList: Array<TodoType>;
     addTodo: (
@@ -17,17 +19,20 @@ type propsType = {
 };
 function App(props: propsType) {
     return (
-        <div className="App">
-            <div className="inner">
-                <h1>TodoList App</h1>
-            </div>
-            <Input
-                addTodo={props.addTodo}
+        <css.Wrapper className="wrap">
+            <css.Inner className="inner">
+                <css.AppTitle>
+                    <FormOutlined />
+                    TodoList App
+                </css.AppTitle>
+            </css.Inner>
+            <TodoInput addTodo={props.addTodo} />
+            <TodoList
+                todoList={props.todoList}
                 updateTodo={props.updateTodo}
                 deleteTodo={props.deleteTodo}
             />
-            <List todoList={props.todoList} />
-        </div>
+        </css.Wrapper>
     );
 }
 
