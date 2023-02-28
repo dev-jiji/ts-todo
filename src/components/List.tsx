@@ -1,7 +1,11 @@
-const List = () => {
-  return (
-    <div>List</div>
-  )
-}
+import { TodoType } from "../AppContainer";
 
-export default List
+type propsType = {
+    todoList: Array<TodoType>;
+};
+
+const List = (props: propsType) => {
+    return <div>List</div>;
+};
+
+export default List;
