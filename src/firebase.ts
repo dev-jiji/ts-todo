@@ -1,4 +1,4 @@
-import { initializeApp, auth } from "firebase/app";
+import { initializeApp } from "firebase/app";
 
 // firestore Import
 import { getFirestore } from "firebase/firestore";

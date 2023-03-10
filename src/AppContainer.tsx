@@ -1,5 +1,5 @@
 // firebase 관련
-import { fireDB } from "./firebase";
+import { fireDB, auth } from "./firebase";
 
 import { useEffect, useState } from "react";
 // 상태관리를 위한 객체복사 라이브러리
@@ -16,6 +16,10 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { async } from "@firebase/util";
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+} from "firebase/auth";
 export type TodoType = {
     uid: string;
     title: string;
@@ -237,6 +241,38 @@ const AppContainer = () => {
     };
     // 데이터 목록의 타입
     const states: StatesType = { todoList };
+
+    // 사용자 로그인 기능
+    const fbLogin = (email: string, password: string) => {
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log("errorCode : ", errorCode);
+                console.log("errorMessage : ", errorMessage);
+            });
+    };
+    // 사용자 가입
+    const fbJoin = (email: string, password: string) => {
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                // Signed in
+                const user = userCredential.user;
+                console.log(user);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log("errorCode : ", errorCode);
+                console.log("errorMessage : ", errorMessage);
+            });
+    };
+
     useEffect(() => {
         getLocalData();
     }, []);
