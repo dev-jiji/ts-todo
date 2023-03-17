@@ -1,12 +1,13 @@
 import * as css from "../style/style";
 import { UserOutlined, EditOutlined, UndoOutlined } from "@ant-design/icons";
-import { Input, DatePicker, Radio, Button, Space, Form, Checkbox } from "antd";
+import { Input, DatePicker, Radio, Button, Space, Form } from "antd";
 import moment from "moment";
 import { CallBacksType, StatesType, TodoType } from "../AppContainer";
 // URI 에 전달된 parameter 활용시
-//  :     /edit/uid
+//  :    /edit/uid
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Checkbox from "antd/es/checkbox/Checkbox";
 
 type propsType = {
     states: StatesType;
@@ -22,7 +23,7 @@ const TodoEdit = ({ states, callBacks }: propsType) => {
     const navigate = useNavigate();
     // uid 를 이용해서 find 합니다.
     let todoItem = states.todoList.find((item) => item.uid === uid);
-    // console.log(todoItem);
+    //   console.log("todoItem : ", todoItem);
     // 검색해 둔 아이템을 상태관리한다.
     const [todo, setTodo] = useState({ ...todoItem });
 
@@ -31,31 +32,26 @@ const TodoEdit = ({ states, callBacks }: propsType) => {
             alert("목록이 없습니다.");
             navigate("/");
         }
-        return () => {};
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
     // 내용 입력
     const { TextArea } = Input;
-
     // 필수 항목 작성시
     const onFinish = (values: any) => {
         const updateTodo: TodoType = {
             uid: String(uid),
             title: values.title,
             body: values.body,
-            date: values.date,
+            date: moment(values.date).format("YYYY-MM-DD"),
             done: values.done,
             sticker: values.sticker,
         };
         console.log(updateTodo);
-
         // 항목 초기화(테스트)
-        // 날짜가 리셋이 안됨.
+        // 날짜가 리셋이 안되요.
         // form.resetFields();
         // update 실행한다.
-        // 첫 화면으로 이동한다.
-
+        // 첫화면으로 이동한다.
         callBacks.updateTodo(updateTodo);
         alert("내용이 수정되었습니다.");
         navigate("/");
@@ -134,7 +130,6 @@ const TodoEdit = ({ states, callBacks }: propsType) => {
                             />
                         </Radio>
                         <Radio value={"2"}>
-                            {" "}
                             <img
                                 src={`${path}/icon/icon2.png`}
                                 alt="날씨"
@@ -142,7 +137,6 @@ const TodoEdit = ({ states, callBacks }: propsType) => {
                             />
                         </Radio>
                         <Radio value={"3"}>
-                            {" "}
                             <img
                                 src={`${path}/icon/icon3.png`}
                                 alt="날씨"
@@ -150,7 +144,6 @@ const TodoEdit = ({ states, callBacks }: propsType) => {
                             />
                         </Radio>
                         <Radio value={"4"}>
-                            {" "}
                             <img
                                 src={`${path}/icon/icon4.png`}
                                 alt="날씨"
@@ -182,6 +175,7 @@ const TodoEdit = ({ states, callBacks }: propsType) => {
                         >
                             Back
                         </Button>
+
                         <Button htmlType="reset" danger icon={<UndoOutlined />}>
                             Reset
                         </Button>
