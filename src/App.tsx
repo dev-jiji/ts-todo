@@ -44,10 +44,19 @@ function App({ states, callBacks, callBacksFireBase, userLogin }: propsType) {
                         TodoList App
                         {userLogin && (
                             <>
-                                <Button onClick={callBacksFireBase.fbLogout}>
+                                <Button
+                                    onClick={callBacksFireBase.fbLogout}
+                                    style={{ marginLeft: "50px" }}
+                                >
                                     로그아웃
                                 </Button>
-                                <Button onClick={showModal}> 회원탈퇴</Button>
+                                <Button
+                                    onClick={showModal}
+                                    style={{ marginLeft: "5px" }}
+                                >
+                                    {" "}
+                                    회원탈퇴
+                                </Button>
                             </>
                         )}
                     </css.AppTitle>

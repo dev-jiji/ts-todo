@@ -20,6 +20,7 @@ export const AppTitle = styled.h1`
     padding: 30px 0;
     font-size: 30px;
     color: hotpink;
+    
 `;
 
 // 입력창

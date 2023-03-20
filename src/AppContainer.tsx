@@ -6,7 +6,12 @@ import {
     fbJoinState,
     fbLogoutState,
     fbDeleteUserState,
+    fbLoginFB,
+    fbJoinFB,
+    fbLogoutFB,
+    fbDeleteUserFB,
 } from "./store/userSlice";
+
 import {
     initTodoState,
     addTodoState,
@@ -22,8 +27,10 @@ import {
 } from "./store/todoSlice";
 // firebase 관련
 import { auth } from "./firebase";
+
 import { useEffect } from "react";
 import App from "./App";
+
 import {
     createUserWithEmailAndPassword,
     deleteUser,
@@ -106,14 +113,14 @@ const AppContainer = () => {
     };
     // FB 수정기능
     const updateTodo = async (todo: TodoType) => {
-        // 서버 연동을 비동기로 자료를 업로드
+        // 서버 연동으로 비동기로 자료를 업로드
         dispatch(updateTodoFB(todo));
         // 동기로 즉시 State 업데이트
         dispatch(updateTodoState(todo));
     };
     // 삭제기능
     const deleteTodo = async (todo: TodoType) => {
-        // 서버 연동을 비동기로 자료를 삭제요청
+        // 서버 연동으로 비동기로 자료를 삭제요청
         // 서버작업
         dispatch(deleteTodoFB(todo));
         // 동기로 삭제 후 즉시 State 업데이트
@@ -147,60 +154,20 @@ const AppContainer = () => {
 
     // 사용자 로그인 기능
     const fbLogin = (email: string, password: string) => {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log(user);
-
-                dispatch(fbLoginState({ email, password }));
-                // setUserLogin(true);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log("errorCode : ", errorCode);
-                console.log("errorMessage : ", errorMessage);
-            });
+        // dipatch 는 액션을 담아서 reducer 로 전달
+        dispatch(fbLoginFB({ email, password }));
     };
     // 사용자 가입
     const fbJoin = (email: string, password: string) => {
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in
-                const user = userCredential.user;
-                console.log(user);
-                // 생각을 더 해보자 ????
-                dispatch(fbJoinState());
-                // setUserLogin(true);
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log("errorCode : ", errorCode);
-                console.log("errorMessage : ", errorMessage);
-            });
+        dispatch(fbJoinFB({ email, password }));
     };
     // 사용자 로그아웃
     const fbLogout = () => {
-        auth.signOut();
-
-        dispatch(fbLogoutState());
-        // setUserLogin(false);
+        dispatch(fbLogoutFB());
     };
     // 회원탈퇴
     const fbDeleteUser = async () => {
-        await deleteUser(auth.currentUser as User)
-            .then(() => {
-                // User deleted.
-                dispatch(fbDeleteUserState());
-                // setUserLogin(false);
-            })
-            .catch((error) => {
-                // An error ocurred
-                // ...
-                console.log("회원 탈퇴 실패");
-            });
+        dispatch(fbDeleteUserFB());
     };
 
     // 로그인 관리 기능 타입
